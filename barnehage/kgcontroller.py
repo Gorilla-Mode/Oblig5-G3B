@@ -115,6 +115,20 @@ def select_barn(b_pnr):
     
     
 # --- Skriv kode for select_soknad her
+def select_alle_soknader():
+    return soknad.apply(lambda r: soknad (r['sok_id'],
+                                          r['foresatt_1'],
+                                          r['foresatt_2'],
+                                          r['barn_1'],
+                                          r['fr_barnevern'],
+                                          r['fr_sykd_familie'],
+                                          r['fr_sykd_barn'],
+                                          r['fr_annet'],
+                                          r['barnehager_prioritert'],
+                                          r['sosken_i_barnehagen'],
+                                          r['tidspunkt_oppstart'],
+                                          r['brutto_inntekt'],
+                                          axis=1).to_list())
 
 
 # ------------------
