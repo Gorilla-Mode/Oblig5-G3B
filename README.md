@@ -1,2 +1,2 @@
-# IS-114 - Gruppe 3B
+# IS-114 - Gruppe 3Blol
 Kode for OBLIG 5
