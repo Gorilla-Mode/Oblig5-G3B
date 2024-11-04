@@ -85,6 +85,7 @@ def insert_soknad(s):
                 columns=soknad.columns), soknad], ignore_index=True)
     
     return soknad
+    
 def hent_soknadsrespons(soknad):
     """Bestemmer om søknaeden får 'AVSLAG' eller 'TILBUD' basert på ledige plasser og prioritet."""
     ledige_plasser = sum([bhg.barnehage_ledige_plasser for bhg in select_alle_barnehager()])
