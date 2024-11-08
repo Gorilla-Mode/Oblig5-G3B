@@ -4,8 +4,10 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import session
+from numpy import integer
 
-from barnehage.kgcontroller import select_alle_soknader
+from barnehage.kgcontroller import select_barnehage_by_id
+from kgcontroller import select_alle_soknader
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
 from kgcontroller import (form_to_object_soknad,
                           insert_soknad,
@@ -39,7 +41,25 @@ def behandle():
 @app.route('/svar')
 def svar():
     information = session['information']
-    return render_template('svar.html', data=information)
+    priorities = information['liste_over_barnehager_prioritert_5']
+    barnehage_liste = []
+    message = ""
+    if len(priorities) > 0:
+        try:
+            kgpr = priorities.split(',')
+            for kgid in kgpr:
+                kg_instance = select_barnehage_by_id(int(kgid), select_alle_barnehager())
+                if kg_instance[0].barnehage_ledige_plasser != 0:
+                    barnehage_liste.append(kg_instance[0])
+                    message = "Tilbud"
+                else:
+                    message = "Avslag"
+        except ValueError or TypeError:
+            message = "ulovlig input"
+    else:
+        message = "Ingen barnehager valgt"
+    return render_template('svar.html', data=information, kglist = barnehage_liste, message=message)
+
 
 @app.route('/commit')
 def commit():

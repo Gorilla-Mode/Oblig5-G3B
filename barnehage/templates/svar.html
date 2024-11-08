@@ -2,20 +2,23 @@
 
 {% block content %}
 <h1>Søknadsrespons</h1>
-
-<p>Status: {{ response }}</p>
-
-{% if response == "TILBUD" %}
-    <p>Gratulerer! Du har fått tilbud om barnehageplass.</p>
-{% else %}
-    <p>Beklager, det er for øyeblikket ingen ledige plasser.</p>
-{% endif %}
-
+<h2>Søknads kvittering</h2>
 <table border=1>
 	{% for k,v in data.items() %}
 	<tr>
 		<th>{{ k }}</th>
 		<td>{{ v }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+<h2>Svar</h2>
+<p>{{ message }}<p>
+<table border=1>
+	{% for elt in kglist %}
+	<tr>
+		<th>{{ elt.barnehage_navn }}</th>
+		<td>{{ elt.barnehage_plasser }}</td>
 	</tr>
 	{% endfor %}
 </table>

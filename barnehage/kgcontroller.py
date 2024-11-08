@@ -66,8 +66,8 @@ def insert_soknad(s):
         new_id = 1
     else:
         new_id = soknad['sok_id'].max() + 1
-    
-    
+
+
     # burde også sjekke for duplikater
     
     soknad = pd.concat([pd.DataFrame([[new_id,
@@ -85,6 +85,8 @@ def insert_soknad(s):
                 columns=soknad.columns), soknad], ignore_index=True)
     
     return soknad
+
+
     
 def hent_soknadsrespons(soknad):
     """Bestemmer om søknaeden får 'AVSLAG' eller 'TILBUD' basert på ledige plasser og prioritet."""
@@ -96,6 +98,9 @@ def hent_soknadsrespons(soknad):
     return "AVSLAG"
 # ---------------------------
 # Read (select)
+
+def select_barnehage_by_id(bh_id, bo_list):
+    return list(filter(lambda barnehage_objekter: barnehage_objekter.barnehage_id == bh_id, bo_list))
 
 def select_alle_barnehager():
     """Returnerer en liste med alle barnehager definert i databasen dbexcel."""
@@ -121,7 +126,7 @@ def select_barn(b_pnr):
     else:
         return series.iloc[0] # returnerer kun det første elementet i series
     
-    
+
 # --- Skriv kode for select_soknad her
 def select_alle_soknader():
     return soknad.apply(lambda r: soknad (r['sok_id'],
