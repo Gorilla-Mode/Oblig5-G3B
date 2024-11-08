@@ -51,13 +51,15 @@ def svar():
                 kg_instance = select_barnehage_by_id(int(kgid), select_alle_barnehager())
                 if kg_instance[0].barnehage_ledige_plasser != 0:
                     barnehage_liste.append(kg_instance[0])
-                    message = "Tilbud"
-                else:
-                    message = "Avslag"
+            if len(barnehage_liste) != 0:
+                message = "Tilbud"
+            else:
+                message = "Avslag"
         except ValueError or TypeError:
             message = "ulovlig input"
     else:
         message = "Ingen barnehager valgt"
+    print(barnehage_liste)
     return render_template('svar.html', data=information, kglist = barnehage_liste, message=message)
 
 
