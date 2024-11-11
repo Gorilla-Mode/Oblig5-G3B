@@ -17,23 +17,22 @@
 		<th>Brutto inntekt</th>
 		<th>Status</th>
 	</tr>
-	{% for elt in soknader %}
-		{% for i in range(0, len) %}
+	
+	{% for i in range(0, len) %}	
 	<tr>
-		<td>{{ elt.sok_id }}</td>
-		<td>{{ elt.foresatt_1 }}</td>
-		<td>{{ elt.foresatt_2 }}</td>	
-		<td>{{ elt.barn_1}}</td>
-		<td>{{ elt.fr_barnevern }}</td>
-		<td>{{ elt.fr_sykd_familie }}</td>
-		<td>{{ elt.fr_sykd_barn }}</td>
-		<td>{{ elt.fr_annet}}</td>
-		<td>{{ elt.barnehager_prioritert }}</td>
-		<td>{{ elt.sosken__i_barnehagen }}</td>
-		<td>{{ elt.tidspunkt_oppstart}}</td>
-		<td>{{ elt.brutto_inntekt}}</td>
+		<td>{{ soknader[i]['sok_id'] }}</td>
+		<td>{{ soknader[i]['foresatt_1'] }}</td>
+		<td>{{ soknader[i]['foresatt_2'] }}</td>
+		<td>{{ soknader[i]['barn_1'] }}</td>
+		<td>{{ soknader[i]['fr_barnevern'] }}</td>
+		<td>{{ soknader[i]['fr_sykd_familie'] }}</td>
+		<td>{{ soknader[i]['fr_sykd_barn'] }}</td>
+		<td>{{ soknader[i]['fr_annet'] }}</td>
+		<td>{{ soknader[i]['barnehager_prioritert'] }}</td>
+		<td>{{ soknader[i]['sosken__i_barnehagen'] }}</td>
+		<td>{{ soknader[i]['tidspunkt_oppstart'] }}</td>
+		<td>{{ soknader[i]['brutto_inntekt'] }}</td>
 		<td>{{status[i]}}</td>
-		{% endfor %}
 	{% endfor %}
 	</tr>
 </table>

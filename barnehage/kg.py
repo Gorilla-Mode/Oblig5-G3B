@@ -82,12 +82,8 @@ def soknader():
         temp = soknader[i]
         kgpr = []
         kgpr.append(temp.barnehager_prioritert)
-        print(kgpr)
 
-
-
-
-    return render_template('soknader.html', soknader=soknader, status=status, len=len(status))
+    return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 
 
 
