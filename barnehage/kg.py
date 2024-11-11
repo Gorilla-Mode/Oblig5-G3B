@@ -55,8 +55,12 @@ def svar():
                 message = "Tilbud"
             else:
                 message = "Avslag"
-        except ValueError or TypeError:
-            message = "ulovlig input"
+        except ValueError:
+            message = "Forbidden value"
+            return render_template('svar-error.html',message=message)
+        except IndexError:
+            message = "Contains value outside index"
+            return render_template('svar-error.html',message=message)
     else:
         message = "Ingen barnehager valgt"
     print(barnehage_liste)
