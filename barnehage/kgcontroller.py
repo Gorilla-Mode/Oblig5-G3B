@@ -1,6 +1,8 @@
 # kgcontroller module
 import pandas as pd
 import numpy as np
+from pandas.core.interchange.dataframe_protocol import DataFrame
+
 from dbexcel import *
 from kgmodel import *
 
@@ -83,7 +85,6 @@ def insert_soknad(s):
                                      s.tidspunkt_oppstart,
                                      s.brutto_inntekt]],
                 columns=soknad.columns), soknad], ignore_index=True)
-    
     return soknad
 
 
@@ -129,19 +130,22 @@ def select_barn(b_pnr):
 
 # --- Skriv kode for select_soknad her
 def select_alle_soknader():
-    return soknad.apply(lambda r: soknad (r['sok_id'],
-                                          r['foresatt_1'],
-                                          r['foresatt_2'],
-                                          r['barn_1'],
-                                          r['fr_barnevern'],
-                                          r['fr_sykd_familie'],
-                                          r['fr_sykd_barn'],
-                                          r['fr_annet'],
-                                          r['barnehager_prioritert'],
-                                          r['sosken_i_barnehagen'],
-                                          r['tidspunkt_oppstart'],
-                                          r['brutto_inntekt'],
-                                          axis=1).to_list())
+    return soknad.apply(lambda r: Soknad(
+                             r['sok_id'],
+                             r['foresatt_1'],
+                             r['foresatt_2'],
+                             r['barn_1'],
+                             r['fr_barnevern'],
+                             r['fr_sykd_familie'],
+                             r['fr_sykd_barn'],
+                             r['fr_annet'],
+                             r['barnehager_prioritert'],
+                             r['sosken__i_barnehagen'],
+                             r['tidspunkt_oppstart'],
+                             r['brutto_inntekt']),
+                             axis=1).to_list()
+print(select_alle_soknader())
+
 
 
 # ------------------

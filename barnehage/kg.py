@@ -6,6 +6,7 @@ from flask import redirect
 from flask import session
 from numpy import integer
 
+from barnehage.dbexcel import soknad
 from barnehage.kgcontroller import select_barnehage_by_id
 from kgcontroller import select_alle_soknader
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
