@@ -76,7 +76,18 @@ def commit():
 @app.route('/soknader')
 def soknader():
     soknader = select_alle_soknader()
-    return render_template('soknader.html', soknader=soknader)
+    status = ["avslag", "tilbud"]
+    print(type(soknader))
+    for i in range(len(soknader)):
+        temp = soknader[i]
+        kgpr = []
+        kgpr.append(temp.barnehager_prioritert)
+        print(kgpr)
+
+
+
+
+    return render_template('soknader.html', soknader=soknader, status=status, len=len(status))
 
 
 
