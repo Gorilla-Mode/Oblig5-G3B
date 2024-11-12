@@ -41,6 +41,7 @@ def behandle():
 
 @app.route('/svar')
 def svar():
+
     information = session['information']
     priorities = information['liste_over_barnehager_prioritert_5']
     barnehage_liste = []
@@ -77,11 +78,6 @@ def commit():
 def soknader():
     soknader = select_alle_soknader()
     status = ["avslag", "tilbud"]
-    print(type(soknader))
-    for i in range(len(soknader)):
-        temp = soknader[i]
-        kgpr = []
-        kgpr.append(temp.barnehager_prioritert)
 
     return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 

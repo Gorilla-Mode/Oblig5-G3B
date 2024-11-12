@@ -103,6 +103,7 @@ def select_alle_barnehager():
                              r['barnehage_ledige_plasser']),
          axis=1).to_list()
 
+
 def select_foresatt(f_navn):
     """OBS! Ignorerer duplikater"""
     series = forelder[forelder['foresatt_navn'] == f_navn]['foresatt_id']
@@ -136,7 +137,7 @@ def select_alle_soknader():
                              r['tidspunkt_oppstart'],
                              r['brutto_inntekt']),
                              axis=1).to_list()
-print(type(select_alle_soknader()))
+
 
 
 
