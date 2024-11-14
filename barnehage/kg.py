@@ -81,7 +81,7 @@ def soknader():
 
     return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 
-
+print()
 
 
 """
