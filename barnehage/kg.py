@@ -7,7 +7,7 @@ from flask import session
 from numpy import integer
 
 from barnehage.dbexcel import soknad
-from barnehage.kgcontroller import select_barnehage_by_id
+from barnehage.kgcontroller import select_barnehage_by_id, select_alle_barn, select_alle_foresatt
 from kgcontroller import select_alle_soknader
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
 from kgcontroller import (form_to_object_soknad,
@@ -67,21 +67,24 @@ def svar():
         message = "Ingen barnehager valgt"
     print(barnehage_liste)
     return render_template('svar.html', data=information, kglist = barnehage_liste, message=message)
-
-
-@app.route('/commit')
-def commit():
-    commit_all()
-    return render_template('commit.html')
-
 @app.route('/soknader')
 def soknader():
     soknader = select_alle_soknader()
     status = ["avslag", "tilbud"]
-
+    #Skriv kode for bool liste
     return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 
-print()
+@app.route('/commit')
+def commit():
+    commit_all()
+    kg = select_alle_barnehager()
+    sk = select_alle_soknader()
+    br = select_alle_barn()
+    fr = select_alle_foresatt()
+    return render_template('commit.html', kg = kg, sk = sk, br = br, fr = fr)
+
+
+
 
 
 """

@@ -1,5 +1,94 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2>Save confirmation:</h2>
 <p>Alle endringene er skrevet til dbexcel!</p>
+<h2>Database utskrift:</h2>
+<h3>Barnehager:</h3>
+<table border=1>
+	<tr>
+		<th>Id</th>
+		<th>Navn</th>
+		<th>Antall plasser</th>
+		<th>Antall ledige plasser</th>
+	</tr>
+	{% for elt in kg %}
+	<tr>
+		<td>{{ elt.barnehage_id }}</td>
+		<td>{{ elt.barnehage_navn }}</td>
+		<td>{{ elt.barnehage_antall_plasser }}</td>	
+		<td>{{ elt.barnehage_ledige_plasser }}</td>
+	</tr>
+	{% endfor %}	
+</table>
+
+<h3>Søknader:</h3>
+<table border=1>
+	<tr>
+		<th>Soknad ID</th>
+		<th>Foresatt 1 ID</th>
+		<th>Foresatt 2 ID</th>
+		<th>Barn ID</th>
+		<th>Barnevern</th>
+		<th>Sykd familie</th>
+		<th>Sykd barn</th>
+		<th>Annet</th>
+		<th>Barnehage prioritet</th>
+		<th>Sosken i barnehagen</th>
+		<th>Oppstart</th>
+		<th>Brutto inntekt</th>
+	</tr>
+	{% for elt in sk %}	
+	<tr>
+		<td>{{ elt.sok_id }}</td>
+		<td>{{ elt.foresatt_1 }}</td>
+		<td>{{ elt.foresatt_2 }}</td>
+		<td>{{ elt.barn_1 }}</td>
+		<td>{{ elt.fr_barnevern }}</td>
+		<td>{{ elt.fr_sykd_familie }}</td>
+		<td>{{ elt.fr_sykd_barn }}</td>
+		<td>{{ elt.fr_annet }}</td>
+		<td>{{ elt.barnehager_prioritert }}</td>
+		<td>{{ elt.sosken__i_barnehagen }}</td>
+		<td>{{ elt.tidspunkt_oppstart }}</td>
+		<td>{{ elt.brutto_inntekt }}</td>
+	{% endfor %}
+	</tr>
+</table>
+
+<h3>Barn:</h3>
+<table border=1>
+	<tr>
+		<th>Barn ID</th>
+		<th>Barn Personnummer</th>
+	</tr>
+	{% for elt in br %}
+	<tr>
+		<td>{{ elt.barn_id }}</td>
+		<td>{{ elt.barn_pnr }}</td>
+	</tr>
+	{% endfor %}	
+</table>
+
+<h3>Foresatt:</h3>
+<table border=1>
+	<tr>
+		<th>Foresatt ID</th>
+		<th>Foresatt Navn</th>
+		<th>Foresatt Adresse</th>
+		<th>Foresatt Telefon</th>
+		<th>Foresatt Personnummer</th>
+	</tr>
+	{% for elt in fr %}
+	<tr>
+		<td>{{ elt.foresatt_id }}</td>
+		<td>{{ elt.foresatt_navn }}</td>
+		<td>{{ elt.foresatt_adresse }}</td>	
+		<td>{{ elt.foresatt_tlfnr }}</td>
+		<td>{{ elt.foresatt_pnr }}</td>
+	</tr>
+	{% endfor %}	
+</table>
+
+
 {% endblock %}

@@ -138,6 +138,22 @@ def select_alle_soknader():
                              r['brutto_inntekt']),
                              axis=1).to_list()
 
+def select_alle_barn():
+    return barn.apply(lambda r: Barn(
+                             r['barn_id'],
+                             r['barn_pnr']),
+                             axis=1).to_list()
+
+def select_alle_foresatt():
+    return forelder.apply(lambda r: Foresatt(
+                             r['foresatt_id'],
+                             r['foresatt_navn'],
+                             r['foresatt_adresse'],
+                             r['foresatt_tlfnr'],
+                             r['foresatt_pnr']),
+                             axis=1).to_list()
+
+
 
 
 
