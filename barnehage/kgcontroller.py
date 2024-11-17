@@ -1,5 +1,13 @@
 # kgcontroller module
+from distutils.command.clean import clean
+
 import pandas as pd
+import tabulate as ta
+import math
+import altair as alt
+from altair_saver import save
+import numpy as np
+alt.renderers.enable("html")
 import numpy as np
 from pandas.core.interchange.dataframe_protocol import DataFrame
 
@@ -153,6 +161,119 @@ def select_alle_foresatt():
                              r['foresatt_pnr']),
                              axis=1).to_list()
 
+# Importerer data
+data = pd.read_excel("ssb-barnehager-2015-2023-alder-1-2-aar.xlsm",
+                       sheet_name="KOSandel120000", header=3,
+                       names=['kom','y15','y16','y17','y18','y19','y20','y21','y22','y23'],
+                       na_values=['.', '..']
+                     )
+df = pd.DataFrame(data)  # dataframe
+df.drop(range(724, 780), inplace = True)  # Fjerner irrelvante rader
+df.drop_duplicates(inplace = True)  # Fjerner potensielle duplikaer
+
+#fra janis, endrer navn på strings ved index[0][0], der strings strings mellom første og andre mellomrom beholdes
+for coln in ['kom']:
+    df[coln] = df[coln].str.split(" ").apply(lambda x: x[1] if len(x) > 1 else "")
+
+#fra Janis, fjerner prosenter over 100
+for coln in ['y15','y16','y17','y18','y19','y20','y21','y22','y23']:
+    mask_over_100 = (df[coln] > 100)
+    df.loc[mask_over_100, coln] = float("nan")
+
+dflist = df.values.tolist()
+"""print(ta.tabulate(dflist))"""
+
+cleaned_list = []  # Tom liste der nan verdier bytter med korrespoderene verdier
+
+# Sjekker om elementer allerede er renset
+def search_clean_list_exist(search_string):
+    for i in range(len(cleaned_list)):
+        if search_string in cleaned_list[i][0]:
+            return True
+    return False
+
+# Funksjonen henter den første mathcen til søket
+def extract_match(dataframe):
+    """
+    list.append(element) -> list:
+    range(start, stop, step)
+    len(list, string) -> integer
+    math.isnan(x) -> Boolean
+    """
+    for j in range(len(dataframe)):
+        if not j <= i:
+            if search_key == dataframe[j][0]:
+                second_list.append(dataframe[j])
+
+# Legger inn andre mulige duplikate kommunene navn og legger verdiene inn instedenfor nan
+for i in range(len(dflist)):
+    first_list = dflist[i]
+    if not search_clean_list_exist(first_list[0]):
+        search_key = first_list[0]
+        second_list = []
+        clean_row =[]
+        extract_match(dflist)
+        for k in range(len(first_list)):
+            if k == 0:
+                clean_row.append(first_list[k])
+            else:
+                if math.isnan(first_list[k]):
+                    if not second_list == []:
+                        for j in range(len(second_list)):
+                            if not math.isnan(second_list[j][k]):
+                                clean_row.append(second_list[j][k])
+                                break
+                            if j == len(second_list):
+                                clean_row.append(None)
+                    else:
+                        clean_row.append(None)
+                else:
+                    clean_row.append(first_list[k])
+        cleaned_list.append(clean_row)
+
+cleaned_table = pd.DataFrame(cleaned_list, columns = ['kom','y15','y16','y17','y18','y19','y20','y21','y22','y23'])
+final_list = cleaned_table.values.tolist() #liste versjon av dataframe, enklere for noen funskjoner
+
+# y23 is index 9
+#lager en liste med alle verdiene i en kolonne basert på valgt index i datafram
+def make_column_list(table, index: int):
+    """
+    list.append(element) -> list:
+    range(start, stop, step)
+    len(list, string) -> integer
+    """
+    column_list = []
+    for i in range(len(table)):
+        column_list.append(table[i][index])
+    return column_list
+
+
+# lager et linje diagram med verdiene over årene for en kommune spesifisert av bruker
+def get_diagram_by_name(dataframe):
+    """
+    input(prompt) -> String
+    range(start, stop, step)
+    len(list, string) -> integer
+    list.index(element) -> integer
+    df.values.tolist(dataframe) -> list
+    property DataFrame.loc
+    class altair.Chart(data=Undefined, encoding=Undefined, mark=Undefined, width=Undefined, height=Undefined, **kwargs)
+    chart.save('chart.html') -> html
+    """
+    municipality_list = make_column_list(final_list, 0)
+    print(f"Kommuner:")
+    for i in range(len(municipality_list)):
+        municipality_index = municipality_list.index(municipality_list[i])
+        municipality_row = dataframe.loc[municipality_index]
+        municipality_list_dataframe = municipality_row.values.tolist()
+        df = pd.DataFrame({
+            'year': ['y15','y16','y17','y18','y19', 'y20', 'y21', 'y22', 'y23'],
+            'values': municipality_list_dataframe[1:]})
+        chart = (alt.Chart(df).mark_line().encode
+                 (x='year', y=alt.Y('values', scale = alt.Scale(type='linear', domain=[65,100]))))
+        save(chart, f"E:/_Skole/_UIA/IT/IS-114/Git/Oblig5-privat/barnehage/charts/{municipality_list[i]}.html")
+        print(f"chart for {municipality_list[i]} is saved")
+get_diagram_by_name(cleaned_table)
 
 
 

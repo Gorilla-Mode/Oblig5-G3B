@@ -2,4 +2,9 @@
 
 {% block content %}
 
+<form method="POST" action="/diagram">
+	<label for="kommune">Kommune:</label>
+	<input type="String" id="kommune" name="kommune" required/><br><br>
+	<input type="submit" value="Hent diagram"> 
+</form>
 {% endblock %}
