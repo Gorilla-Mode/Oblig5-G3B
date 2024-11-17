@@ -83,6 +83,9 @@ def commit():
     fr = select_alle_foresatt()
     return render_template('commit.html', kg = kg, sk = sk, br = br, fr = fr)
 
+@app.route('/statistikk')
+def statistikk():
+    return render_template('statistikk.html')
 
 
 
