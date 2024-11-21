@@ -70,7 +70,7 @@ def svar():
         message = "Ingen barnehager valgt"
     print(barnehage_liste)
     return render_template('svar.html', data=information, kglist = barnehage_liste, message=message)
-@app.route('/soknader')
+@app.route('/admin/soknader')
 def soknader():
     soknader = select_alle_soknader()
     barnehager = select_alle_barnehager()
@@ -94,7 +94,7 @@ def soknader():
     #Skriv kode for bool liste
     return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 
-@app.route('/commit')
+@app.route('/admin/commit')
 def commit():
     commit_all()
     kg = select_alle_barnehager()
