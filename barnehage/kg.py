@@ -84,19 +84,17 @@ def commit():
     return render_template('commit.html', kg = kg, sk = sk, br = br, fr = fr)
 
 
-
-@app.route('/statistikk',  methods=['GET', 'POST'] )
+@app.route('/statistikk')
 def statistikk():
+    return render_template('statistikk.html')
+
+@app.route('/data/', methods=['GET', 'POST'])
+def behandle_input():
     if request.method == 'POST':
-        sd = request.form
-        session['information'] = sd
-        return redirect(url_for('diagram'))  # [1]
-    else:
+        form_data = request.form
+        print(form_data)
         return render_template('statistikk.html')
 
-@app.route('/diagram')
-def diagram():
-    return render_template('Tvedestrand.html')
 
 
 
