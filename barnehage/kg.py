@@ -1,3 +1,5 @@
+from logging import exception
+
 from flask import Flask
 from flask import url_for
 from flask import render_template
@@ -7,7 +9,8 @@ from flask import session
 from numpy import integer
 
 from barnehage.dbexcel import soknad
-from barnehage.kgcontroller import select_barnehage_by_id, select_alle_barn, select_alle_foresatt
+from barnehage.kgcontroller import select_barnehage_by_id, select_alle_barn, select_alle_foresatt, make_column_list, \
+    final_list
 from kgcontroller import select_alle_soknader
 from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
 from kgcontroller import (form_to_object_soknad,
@@ -90,10 +93,17 @@ def statistikk():
 
 @app.route('/data/', methods=['GET', 'POST'])
 def behandle_input():
+    barnehage_list = make_column_list(final_list, 0)
+    print(barnehager)
     if request.method == 'POST':
         form_data = request.form
-        print(form_data)
-        return render_template(f'{form_data["kommune"]}.html')
+        kommune = form_data['kommune'].lower()
+        path = f'charts/{kommune}.png'
+        message = f'Kommunen {kommune} eksisterer ikke'
+        if kommune.title() in barnehage_list:
+            return render_template('data.html', path=path)
+        return render_template('data-error.html', message=message)
+
 
 
 

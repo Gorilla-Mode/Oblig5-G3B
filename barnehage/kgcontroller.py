@@ -271,9 +271,9 @@ def get_diagram_by_name(dataframe):
             'values': municipality_list_dataframe[1:]})
         chart = (alt.Chart(df).mark_line().encode
                  (x='year', y=alt.Y('values', scale = alt.Scale(type='linear', domain=[65,100]))))
-        save(chart, f"E:/_Skole/_UIA/IT/IS-114/Git/Oblig5-privat/barnehage/charts/{municipality_list[i]}.html")
+        chart.save(f"E:/_Skole/_UIA/IT/IS-114/Git/Oblig5-privat/barnehage/static/charts/{municipality_list[i].lower()}.png")
         print(f"chart for {municipality_list[i]} is saved")
-"""get_diagram_by_name(cleaned_table)"""
+"""get_diagram_by_name(cleaned_table"""
 
 
 
