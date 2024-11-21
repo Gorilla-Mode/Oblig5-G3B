@@ -73,7 +73,24 @@ def svar():
 @app.route('/soknader')
 def soknader():
     soknader = select_alle_soknader()
-    status = ["avslag", "tilbud"]
+    barnehager = select_alle_barnehager()
+    status = []
+    print(type(soknader))
+    for i in range(len(soknader)):
+        barnehage_liste = []
+        soknad = soknader[i]
+        temp = soknad.barnehager_prioritert
+        kgpr = temp.split(',')
+        if len(kgpr) != 0:
+            for i in range(len(kgpr)):
+                kg_instance = select_barnehage_by_id(int(kgpr[i]), select_alle_barnehager())
+                if kg_instance[0].barnehage_ledige_plasser != 0:
+                    barnehage_liste.append(kg_instance[0])
+            if len(barnehage_liste) != 0:
+                status.append("Tilbud")
+            else:
+                status.append("Avslag")
+
     #Skriv kode for bool liste
     return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 
@@ -94,14 +111,13 @@ def statistikk():
 @app.route('/data/', methods=['GET', 'POST'])
 def behandle_input():
     barnehage_list = make_column_list(final_list, 0)
-    print(barnehager)
     if request.method == 'POST':
         form_data = request.form
         kommune = form_data['kommune'].lower()
         path = f'charts/{kommune}.png'
-        message = f'Kommunen {kommune} eksisterer ikke'
         if kommune.title() in barnehage_list:
             return render_template('data.html', path=path)
+        message = f'Kommunen {kommune} eksisterer ikke'
         return render_template('data-error.html', message=message)
 
 
