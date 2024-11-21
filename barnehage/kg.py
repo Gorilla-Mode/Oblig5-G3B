@@ -93,7 +93,7 @@ def behandle_input():
     if request.method == 'POST':
         form_data = request.form
         print(form_data)
-        return render_template('statistikk.html')
+        return render_template(f'{form_data["kommune"]}.html')
 
 
 
