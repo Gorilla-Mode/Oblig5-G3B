@@ -1,15 +1,8 @@
 # kgcontroller module
-from distutils.command.clean import clean
-
-import pandas as pd
-import tabulate as ta
 import math
 import altair as alt
-from altair_saver import save
-import numpy as np
 alt.renderers.enable("html")
 import numpy as np
-from pandas.core.interchange.dataframe_protocol import DataFrame
 
 from dbexcel import *
 from kgmodel import *
@@ -248,7 +241,7 @@ def make_column_list(table, index: int):
     return column_list
 
 
-# lager et linje diagram med verdiene over årene for en kommune spesifisert av bruker
+# lager et linje diagram med verdiene over årene for en kommune spesifisert av bruker, kjøres kun for å generere PNG
 def get_diagram_by_name(dataframe):
     """
     input(prompt) -> String

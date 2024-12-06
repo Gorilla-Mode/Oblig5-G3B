@@ -1,18 +1,12 @@
-from logging import exception
-
 from flask import Flask
 from flask import url_for
 from flask import render_template
 from flask import request
 from flask import redirect
 from flask import session
-from numpy import integer
-
-from barnehage.dbexcel import soknad
 from barnehage.kgcontroller import select_barnehage_by_id, select_alle_barn, select_alle_foresatt, make_column_list, \
     final_list
 from kgcontroller import select_alle_soknader
-from kgmodel import (Foresatt, Barn, Soknad, Barnehage)
 from kgcontroller import (form_to_object_soknad,
                           insert_soknad,
                           commit_all,
@@ -70,7 +64,7 @@ def svar():
         message = "Ingen barnehager valgt"
     print(barnehage_liste)
     return render_template('svar.html', data=information, kglist = barnehage_liste, message=message)
-@app.route('/admin/soknader')
+@app.route('/soknader')
 def soknader():
     soknader = select_alle_soknader()
     barnehager = select_alle_barnehager()
@@ -90,11 +84,9 @@ def soknader():
                 status.append("Tilbud")
             else:
                 status.append("Avslag")
-
-    #Skriv kode for bool liste
     return render_template('soknader.html', soknader=soknader, status=status, len=len(soknader))
 
-@app.route('/admin/commit')
+@app.route('/commit')
 def commit():
     commit_all()
     kg = select_alle_barnehager()
