@@ -100,7 +100,7 @@ def commit():
 def statistikk():
     return render_template('statistikk.html')
 
-@app.route('/data/', methods=['GET', 'POST'])
+@app.route('/data', methods=['GET', 'POST'])
 def behandle_input():
     barnehage_list = make_column_list(final_list, 0)
     if request.method == 'POST':
